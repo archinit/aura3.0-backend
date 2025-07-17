@@ -1,8 +1,12 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import express from "express";
 import { Request, Response } from "express";
 import { functions as inngestFunctions, inngest } from "./inngest";
 import { serve } from "inngest/express";
 import { logger } from "./utils/logger";
+import { connectDB } from "./utils/db";
 
 
 
@@ -29,6 +33,7 @@ app.get("/api/chat", (req: Request, res:Response) => {
 
 const startServer = async () => {
     try {
+        await connectDB();
         const PORT =  process.env.PORT || 3001; 
         app.listen(PORT, () => {
             logger.info(`Server is running on PORT: ${PORT}`);
