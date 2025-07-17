@@ -1,7 +1,12 @@
 import { Inngest } from "inngest";
 
-// Create a client to send and receive events
+// Create the inngest client
 export const inngest = new Inngest({ id: "aura3.0" });
 
-// Create an empty array where we'll export future Inngest functions
-export const functions = [];
+// Import functions from other files
+import { helloWorld } from "./functions";
+
+// Export all functions
+export const functions = [
+  helloWorld
+];

@@ -1,7 +1,7 @@
 import { inngest } from "./index";
 
-// Your new function:
-const helloWorld = inngest.createFunction(
+// Your function definitions
+export const helloWorld = inngest.createFunction(
   { id: "hello-world" },
   { event: "test/hello.world" },
   async ({ event, step }) => {
@@ -9,8 +9,3 @@ const helloWorld = inngest.createFunction(
     return { message: `Hello ${event.data.email}!` };
   },
 );
-
-// Add the function to the exported array:
-export const functions = [
-  helloWorld
-];
