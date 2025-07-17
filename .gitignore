@@ -2,3 +2,5 @@ node_modules
 dist
 .env
 tsconfig.tsbuildinfo
+combined.log
+error.log

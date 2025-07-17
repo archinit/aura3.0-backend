@@ -1,2 +1,43 @@
-let a: number = 20
-console.log(a);
+import express from "express";
+import { Request, Response } from "express";
+import { functions, inngest } from "./inngest";
+import { serve } from "inngest/express";
+import { logger } from "./utils/logger";
+
+
+
+const app = express();
+
+app.use(express.json())
+// Set up the "/api/inngest" (recommended) routes with the serve handler
+app.use("/api/inngest", serve({ client: inngest, functions }));
+
+
+
+app.get("/", (req: Request, res:Response) => {
+    res.send("hello world")
+})
+
+app.get("/api/chat", (req: Request, res:Response) => {
+    res.send("Hi, how may I help you today?")
+});
+
+
+// app.listen(PORT, () => {
+//     console.log("app is running on PORT:" + PORT);
+// })
+
+const startServer = async () => {
+    try {
+        const PORT =  process.env.PORT || 3001; 
+        app.listen(PORT, () => {
+            logger.info(`Server is running on PORT: ${PORT}`);
+            logger.info(`Inngest endpoint available at http://localhost:${PORT}/api/inngest`);
+        });
+    } catch (error) {
+        logger.error("Failed to start server:", error);
+        process.exit(1);
+    }
+};
+
+startServer();
