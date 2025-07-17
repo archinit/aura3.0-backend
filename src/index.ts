@@ -1,6 +1,6 @@
 import express from "express";
 import { Request, Response } from "express";
-import { functions, inngest } from "./inngest";
+import { functions as inngestFunctions, inngest } from "./inngest";
 import { serve } from "inngest/express";
 import { logger } from "./utils/logger";
 
@@ -10,7 +10,7 @@ const app = express();
 
 app.use(express.json())
 // Set up the "/api/inngest" (recommended) routes with the serve handler
-app.use("/api/inngest", serve({ client: inngest, functions }));
+app.use("/api/inngest", serve({ client: inngest, functions: inngestFunctions }));
 
 
 
