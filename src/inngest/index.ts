@@ -10,3 +10,7 @@ import { helloWorld } from "./functions";
 export const functions = [
   helloWorld
 ];
+
+
+
+// npx inngest-cli@latest dev -u http://localhost:3001/api/inngest
