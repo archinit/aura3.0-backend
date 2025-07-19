@@ -7,6 +7,7 @@ import { functions as inngestFunctions, inngest } from "./inngest";
 import { serve } from "inngest/express";
 import { logger } from "./utils/logger";
 import { connectDB } from "./utils/db";
+import userRouter  from "./routes/user.route"
 
 
 
@@ -16,6 +17,7 @@ app.use(express.json())
 // Set up the "/api/inngest" (recommended) routes with the serve handler
 app.use("/api/inngest", serve({ client: inngest, functions: inngestFunctions }));
 
+app.use("/api/v1", userRouter)
 
 
 app.get("/", (req: Request, res:Response) => {
