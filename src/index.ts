@@ -1,16 +1,16 @@
 
+import dotenv from 'dotenv';
+dotenv.config();
 import express from "express";
 import { Request, Response } from "express";
 import { functions as inngestFunctions, inngest } from "./inngest";
 import { serve } from "inngest/express";
 import { logger } from "./utils/logger";
 import { connectDB } from "./utils/db";
-import dotenv from 'dotenv';
 import userRouter  from "./routes/user.route"
 import cors from "cors";
 import helmet from "helmet";
 
-dotenv.config();
 
 const app = express();
 

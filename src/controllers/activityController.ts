@@ -1,5 +1,5 @@
-import { Activity } from "@/models/Activity";
-import { logger } from "@/utils/logger";
+import { Activity } from "../models/Activity";
+import { logger } from "../utils/logger";
 import { Request, Response } from "express";
 
 export const logActivity = async (req: Request, res: Response) => {

@@ -1,5 +1,5 @@
-import { Mood } from "@/models/Mood";
-import { logger } from "@/utils/logger";
+import { Mood } from "../models/Mood";
+import { logger } from "../utils/logger";
 import { Request, Response } from "express";
 
 export const createMood = async (req: Request, res: Response) =>{

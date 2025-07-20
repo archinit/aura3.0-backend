@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IMood extends Document {
-  userId: mongoose.Types.ObjectId;
+  userId: string;
   score: number;
   note?: string;
   timestamp: Date;
@@ -12,7 +12,7 @@ export interface IMood extends Document {
 const moodSchema = new Schema<IMood>(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },

@@ -1,7 +1,7 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IActivity extends Document {
-    userId: mongoose.Types.ObjectId;
+    userId: string;
     type: string;
     name: string;
     description: string;
@@ -12,7 +12,7 @@ export interface IActivity extends Document {
 
 const activitySchema = new Schema<IActivity>({
     userId: {
-        type: Schema.Types.ObjectId,
+        type: String,
         ref: 'User',
         required: true,
         index: true,

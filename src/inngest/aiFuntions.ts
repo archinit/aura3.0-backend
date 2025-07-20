@@ -228,3 +228,4 @@ export const analyzeTherapySession = inngest.createFunction(
 );
 
 // Function to generate personalized activity recommendations
+export const functions = [processChatMessage, analyzeTherapySession]

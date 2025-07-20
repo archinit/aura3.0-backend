@@ -1,5 +1,5 @@
-import { Session } from '@/models/Session';
-import { User } from '@/models/User';
+import { Session } from '../models/Session';
+import { User } from '../models/User';
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
