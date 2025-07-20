@@ -8,6 +8,9 @@ import { serve } from "inngest/express";
 import { logger } from "./utils/logger";
 import { connectDB } from "./utils/db";
 import userRouter  from "./routes/user.route"
+import chatRouter from "./routes/chat.route";
+import moodRouter from "./routes/mood.route";
+import activityRouter from "./routes/activity.route";
 import cors from "cors";
 import helmet from "helmet";
 
@@ -29,7 +32,10 @@ app.use("/api/inngest", serve({ client: inngest, functions: inngestFunctions }))
 
 
 //routes
-app.use("/api/v1", userRouter)
+app.use("/api/user", userRouter);
+app.use("/api/chat", chatRouter);
+app.use("/api/mood", moodRouter);
+app.use("/api/activity", activityRouter);
 
 
 
