@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import express from "express";
 import { Request, Response } from "express";
-import { functions as inngestFunctions, inngest } from "./inngest";
+import { functions as inngestFunctions, inngest } from "./inngest/client";
 import { serve } from "inngest/express";
 import { logger } from "./utils/logger";
 import { connectDB } from "./utils/db";

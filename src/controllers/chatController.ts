@@ -1,12 +1,17 @@
-import { inngest } from "@/inngest";
-import { ChatSession } from "@/models/Chat";
-import { User } from "@/models/User";
-import { logger } from "@/utils/logger";
+import { inngest } from "../inngest/client";
+import { ChatSession } from "../models/Chat";
+import { User } from "../models/User";
+import { logger } from "../utils/logger";
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import { v4 as uuidv4 } from "uuid";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { InngestSessionResponse, InngestEvent } from "../types/inngest";
+import { InngestEvent } from "../types/inngest";
+
+// Initialize Gemini API
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY || "your API_KEY"
+);
 
 export const createChatSession = async (req: Request, res: Response) => {
     try {
@@ -186,8 +191,46 @@ export const sendMessage = async (req: Request, res: Response) => {
   } catch (error) {
     logger.error("Error in sendMessage:", error);
     res.status(500).json({
-      message: "Error processing message",
-      error: error instanceof Error ? error.message : "Unknown error",
+      message: "Error processing message", error
     });
+  }
+};
+
+export const getChatSession = async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    logger.info(`Getting chat session: ${sessionId}`);
+    const chatSession = await ChatSession.findOne({ sessionId });
+    if (!chatSession) {
+      logger.warn(`Chat session not found: ${sessionId}`);
+      return res.status(404).json({ error: "Chat session not found" });
+    }
+    logger.info(`Found chat session: ${sessionId}`);
+    res.json(chatSession);
+  } catch (error) {
+    logger.error("Failed to get chat session:", error);
+    res.status(500).json({ error: "Failed to get chat session" });
+  }
+};
+
+export const getChatHistory = async (req: Request, res: Response) => {
+  try {
+    const { sessionId } = req.params;
+    const userId = new Types.ObjectId(req.user.id);
+
+    // Find session by sessionId instead of _id
+    const session = await ChatSession.findOne({ sessionId });
+    if (!session) {
+      return res.status(404).json({ message: "Session not found" });
+    }
+
+    if (session.userId.toString() !== userId.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    res.json(session.messages);
+  } catch (error) {
+    logger.error("Error fetching chat history:", error);
+    res.status(500).json({ message: "Error fetching chat history" });
   }
 };
