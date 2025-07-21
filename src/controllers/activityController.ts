@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 export const logActivity = async (req: Request, res: Response) => {
     try {
         const { type, name, description, duration } = req.body;
-        const userId = req.user._id;
+        const userId = req.user.id;
 
         if (!userId) {
             return res.status(401).json({
@@ -14,6 +14,7 @@ export const logActivity = async (req: Request, res: Response) => {
         }
 
         const activity = new Activity({
+            userId,
             type,
             name,
             description,
