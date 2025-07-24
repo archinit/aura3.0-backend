@@ -45,7 +45,7 @@ export const createChatSession = async (req: Request, res: Response) => {
         });
     } catch (error) {
         logger.error("Error creating chat session", error)
-        res.status(500).json({msg: "Error creating chat session", error})
+        return res.status(500).json({msg: "Error creating chat session", error})
 }
 };
 
