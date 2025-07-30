@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "commonjs",
-    "lib": ["es2020"],
+    "lib": ["es2020", "dom"], 
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -15,8 +15,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["node"] 
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "src/types/**/*"], 
   "exclude": ["node_modules", "dist"]
 }
