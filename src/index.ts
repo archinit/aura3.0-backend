@@ -28,7 +28,7 @@ app.use(express.json())  //parse json body
 
 
 // Set up the "/api/inngest" (recommended) routes with the serve handler
-app.use("/api/inngest", serve({ client: inngest, functions: inngestFunctions }));
+app.use("/api/inngest", serve({ client: inngest, functions: inngestFunctions, signingKey: process.env.INNGEST_SIGNING_KEY }));
 
 
 //routes
