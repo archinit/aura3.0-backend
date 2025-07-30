@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -b",
+    "build": "npm install && tsc -b",
     "start": "node dist/index.js",
     "dev": "node dist/index.js"
   },
@@ -39,5 +39,8 @@
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
+  },
+  "resolutions": {
+    "@types/node": "24.1.0"
   }
 }
