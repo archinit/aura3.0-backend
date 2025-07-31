@@ -120,7 +120,7 @@ export const sendMessage = async (req: Request, res: Response) => {
     if (!genAI) {
       throw new Error("Gemini AI not properly initialized");
     }
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     // Analyze the message
     const analysisPrompt = `Analyze this therapy message and provide insights. Return ONLY a valid JSON object with no markdown formatting or additional text.

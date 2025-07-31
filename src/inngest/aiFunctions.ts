@@ -64,13 +64,11 @@ export const processChatMessage = inngest.createFunction(
                                         "recommendedApproach": "string",
                                         "progressIndicators": ["string"]
                                     }`;
+                    
                     if (!genAI) {
                         throw new Error("Gemini AI not properly initialized");
                     }
-                    if (!genAI) {
-                        throw new Error("Gemini AI not properly initialized");
-                    }
-                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
+                    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });                
                     const response = await model.generateContent(prompt)
                     
 
@@ -143,7 +141,7 @@ export const processChatMessage = inngest.createFunction(
                         if (!genAI) {
                             throw new Error("Gemini AI not properly initialized");
                         }
-                        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
+                        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });                
                         const response = await model.generateContent(prompt)
 
                         const results = response.response.text();
@@ -214,7 +212,7 @@ export const analyzeTherapySession = inngest.createFunction(
                 if (!genAI) {
                     throw new Error("Gemini AI not properly initialized");
                 }
-                const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
+                const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });                
                 const response = await model.generateContent(prompt)
 
                 const results = response.response.text();
