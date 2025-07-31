@@ -2,8 +2,23 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { inngest } from "./inngest";
 import { logger } from "../utils/logger";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "your API_KEY"
-);
+const initializeGeminiAI = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  
+  if (!apiKey || apiKey === "your API_KEY") {
+    logger.error("GEMINI_API_KEY not properly configured");
+    return null;
+  }
+  
+  try {
+    return new GoogleGenerativeAI(apiKey);
+  } catch (error) {
+    logger.error("Failed to initialize Gemini AI:", error);
+    return null;
+  }
+};
+
+const genAI = initializeGeminiAI();
 
 
 export const processChatMessage = inngest.createFunction(
@@ -49,6 +64,12 @@ export const processChatMessage = inngest.createFunction(
                                         "recommendedApproach": "string",
                                         "progressIndicators": ["string"]
                                     }`;
+                    if (!genAI) {
+                        throw new Error("Gemini AI not properly initialized");
+                    }
+                    if (!genAI) {
+                        throw new Error("Gemini AI not properly initialized");
+                    }
                     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
                     const response = await model.generateContent(prompt)
                     
@@ -119,6 +140,9 @@ export const processChatMessage = inngest.createFunction(
                         4. Maintains professional boundaries
                         5. Considers safety and well-being`;
 
+                        if (!genAI) {
+                            throw new Error("Gemini AI not properly initialized");
+                        }
                         const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
                         const response = await model.generateContent(prompt)
 
@@ -187,6 +211,9 @@ export const analyzeTherapySession = inngest.createFunction(
                                 
                                 Format the response as a JSON object.`;
 
+                if (!genAI) {
+                    throw new Error("Gemini AI not properly initialized");
+                }
                 const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
                 const response = await model.generateContent(prompt)
 

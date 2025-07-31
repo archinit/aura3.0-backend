@@ -9,9 +9,23 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { InngestEvent } from "../types/inngest";
 
 // Initialize Gemini API
-const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY || "your API_KEY"
-);
+const initializeGeminiAI = () => {
+  const apiKey = process.env.GEMINI_API_KEY;
+  
+  if (!apiKey || apiKey === "your API_KEY") {
+    logger.error("GEMINI_API_KEY not properly configured");
+    return null;
+  }
+  
+  try {
+    return new GoogleGenerativeAI(apiKey);
+  } catch (error) {
+    logger.error("Failed to initialize Gemini AI:", error);
+    return null;
+  }
+};
+
+const genAI = initializeGeminiAI();
 
 export const createChatSession = async (req: Request, res: Response) => {
     try {
@@ -103,6 +117,9 @@ export const sendMessage = async (req: Request, res: Response) => {
     await inngest.send(event);
 
     // Process the message directly using Gemini
+    if (!genAI) {
+      throw new Error("Gemini AI not properly initialized");
+    }
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     // Analyze the message
