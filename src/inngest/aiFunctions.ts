@@ -1,10 +1,10 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { inngest } from "./inngest";
 import { logger } from "../utils/logger";
 
-const genAI = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY || "your API_KEY"
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "your API_KEY"
+);
+
 
 export const processChatMessage = inngest.createFunction(
     { id: "process-chat-message", },
@@ -18,7 +18,7 @@ export const processChatMessage = inngest.createFunction(
                     userProfile: {
                         emotionalState: [],
                         riskLevel: 0,
-                        preference: {},
+                        preferences: {},
                     },
                     sessionContext: {
                         conversationThemes: [],
@@ -49,14 +49,13 @@ export const processChatMessage = inngest.createFunction(
                                         "recommendedApproach": "string",
                                         "progressIndicators": ["string"]
                                     }`;
-                    const response = await genAI.models.generateContent({
-                        model: "gemini-2.0-flash",
-                        contents: prompt,
-                    });
+                    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
+                    const response = await model.generateContent(prompt)
+                    
 
 
                     // Clean the response text to ensure it's valid JSON
-                    const text = response.text;
+                    const text = response.response.text();
                     logger.info("Received analysis from Gemini:", {text});
 
                     const cleanText = text?.replace(/```json\n|\n```/g, "").trim();
@@ -120,12 +119,10 @@ export const processChatMessage = inngest.createFunction(
                         4. Maintains professional boundaries
                         5. Considers safety and well-being`;
 
-                        const response = await genAI.models.generateContent({
-                            model: "gemini-2.0-flash",
-                            contents: prompt,
-                        });
+                        const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
+                        const response = await model.generateContent(prompt)
 
-                        const results = response.text;
+                        const results = response.response.text();
                         const responseText = results?.trim();
 
                         logger.info("Generated response:", { responseText });
@@ -189,12 +186,11 @@ export const analyzeTherapySession = inngest.createFunction(
                                 5. Progress indicators
                                 
                                 Format the response as a JSON object.`;
-                const response = await genAI.models.generateContent({
-                    model: "gemini-2.0-flash",
-                    contents: prompt,
-                });
 
-                const results = response.text;
+                const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });                
+                const response = await model.generateContent(prompt)
+
+                const results = response.response.text();
                 const responseText = results?.trim();
 
                 return JSON.parse(responseText || '{}');
